@@ -17,6 +17,7 @@
 		2B429158215CAFEF00340C32 /* RPHeadPortraitBubbleUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B429157215CAFEF00340C32 /* RPHeadPortraitBubbleUITests.m */; };
 		2B429169215CB01600340C32 /* UIView+Ext.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B429165215CB01500340C32 /* UIView+Ext.m */; };
 		2B42916A215CB01600340C32 /* RPHeadPortraitBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B429166215CB01600340C32 /* RPHeadPortraitBubbleView.m */; };
+		2B42916C215CB0AC00340C32 /* gif_RPHeadPortraitBubble.gif in Resources */ = {isa = PBXBuildFile; fileRef = 2B42916B215CB0AC00340C32 /* gif_RPHeadPortraitBubble.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		2B429166215CB01600340C32 /* RPHeadPortraitBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPHeadPortraitBubbleView.m; sourceTree = "<group>"; };
 		2B429167215CB01600340C32 /* RPHeadPortraitBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPHeadPortraitBubbleView.h; sourceTree = "<group>"; };
 		2B429168215CB01600340C32 /* UIView+Ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Ext.h"; sourceTree = "<group>"; };
+		2B42916B215CB0AC00340C32 /* gif_RPHeadPortraitBubble.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = gif_RPHeadPortraitBubble.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 				2B429166215CB01600340C32 /* RPHeadPortraitBubbleView.m */,
 				2B429168215CB01600340C32 /* UIView+Ext.h */,
 				2B429165215CB01500340C32 /* UIView+Ext.m */,
+				2B42916B215CB0AC00340C32 /* gif_RPHeadPortraitBubble.gif */,
 				2B429139215CAFEE00340C32 /* Main.storyboard */,
 				2B42913C215CAFEF00340C32 /* Assets.xcassets */,
 				2B42913E215CAFEF00340C32 /* LaunchScreen.storyboard */,
@@ -247,6 +250,7 @@
 			files = (
 				2B429140215CAFEF00340C32 /* LaunchScreen.storyboard in Resources */,
 				2B42913D215CAFEF00340C32 /* Assets.xcassets in Resources */,
+				2B42916C215CB0AC00340C32 /* gif_RPHeadPortraitBubble.gif in Resources */,
 				2B42913B215CAFEE00340C32 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
