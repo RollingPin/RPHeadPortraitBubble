@@ -5,7 +5,7 @@
 ===>>20180928  
 1.添加数据传入入口dataArr,可传入要展示的图片  
 2.组织dataArr数据循环赋给冒泡View  
-3.添加展示图片,更新展示Gif
+3.添加展示图片,更新展示Gif.
 
 # ScreenShot
 ![image](https://github.com/RollingPin/RPHeadPortraitBubble/blob/master/RPHeadPortraitBubble/RPHeadPortraitBubble/gif_RPHeadPortraitBubble_new.gif)
