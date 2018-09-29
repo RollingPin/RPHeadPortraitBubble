@@ -61,6 +61,19 @@
     if (_dataArr != dataArr) {
         _dataArr = dataArr;
     }
+    
+    if (dataArr.count<5) {
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"传入dataArr.count不能少于5个" message:nil preferredStyle: UIAlertControllerStyleAlert];
+        
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        }]];
+        
+        UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+        [rootViewController presentViewController:alert animated:true completion:nil];
+        return;
+    }
+    
     for (int i = 0; i<5; i++) {
         UIImageView * imgv = [self viewWithTag:10+i];
         imgv.image = [UIImage imageNamed:dataArr[i]];
@@ -110,6 +123,16 @@
             }];
         }];
     }];
+}
+
+- (UIViewController *)getCurrentVC {
+    for (UIView* next = [self superview]; next; next = next.superview) {
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)nextResponder;
+        }
+    }
+    return nil;
 }
 
 @end
