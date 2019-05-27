@@ -8,6 +8,7 @@
 
 #import "RPHeadPortraitBubbleView.h"
 #import "UIView+Ext.h"
+#import "UIImageView+WebCache.h"
 
 #define WTWeakSelf __weak typeof(self) weakSelf = self;
 #define randomColor [UIColor colorWithRed:arc4random()%255/255.0 green:arc4random()%255/255.0 blue:arc4random()%255/255.0 alpha:1.0f]
@@ -21,6 +22,8 @@
 @property (nonatomic, assign) int jsh_index;
 @property (nonatomic, assign) int jsh_img;
 
+@property (nonatomic, strong) NSMutableArray * dataImgArr_net;
+
 @end
 
 @implementation RPHeadPortraitBubbleView
@@ -30,6 +33,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
+        self.dataImgArr_net = [NSMutableArray array];
         
         [self createUI];
     }
@@ -56,15 +60,24 @@
     }
 }
 
-- (void)setDataArr:(NSArray *)dataArr
+- (void)setDataArr_net:(NSArray *)dataArr_net
 {
-    if (_dataArr != dataArr) {
-        _dataArr = dataArr;
+    if (_dataArr_net != dataArr_net) {
+        _dataArr_net = dataArr_net;
     }
     
-    if (dataArr.count<5) {
+    [self checkData_net];
+}
+
+- (void)checkData_net
+{
+    WTWeakSelf;
+    
+    [self.self.dataImgArr_net removeAllObjects];
+    
+    if (_dataArr_net.count<5) {
         
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"传入dataArr.count不能少于5个" message:nil preferredStyle: UIAlertControllerStyleAlert];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"传入图片个数不能少于5个" message:nil preferredStyle: UIAlertControllerStyleAlert];
         
         [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         }]];
@@ -74,15 +87,98 @@
         return;
     }
     
-    for (int i = 0; i<5; i++) {
-        UIImageView * imgv = [self viewWithTag:10+i];
-        imgv.image = [UIImage imageNamed:dataArr[i]];
+    int __block jsh_dataImg = 0;
+    for (int i = 0; i<_dataArr_net.count; i++) {
+        UIImageView * dataImgV = [[UIImageView alloc]init];
+        [dataImgV sd_setImageWithURL:[NSURL URLWithString:_dataArr_net[i]] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            jsh_dataImg = jsh_dataImg+1;
+            if (jsh_dataImg == weakSelf.dataImgArr_net.count) {
+                for (int i = 0; i<5; i++) {
+                    UIImageView * imgv = [weakSelf viewWithTag:10+i];
+                    UIImageView * dataImgV_net = weakSelf.dataImgArr_net[i];
+                    imgv.image = dataImgV_net.image;
+                }
+                self.jsh_img = 4;
+                [self startAnimation_net];
+            }
+        }];
+        [self.dataImgArr_net addObject:dataImgV];
+        
     }
-    self.jsh_img = 4;
-    [self startAnimation];
 }
 
-- (void)startAnimation
+- (void)startAnimation_net
+{
+    WTWeakSelf;
+    [UIView animateWithDuration:1 animations:^{
+
+        NSInteger activeTag = weakSelf.activeImg.tag;
+        
+        for (int i = 0; i<5; i++) {
+            NSInteger aTag = 10+i;
+            if (aTag != activeTag) {
+                UIImageView * imgg = [weakSelf viewWithTag:10+i];
+                imgg.centerX = imgg.centerX+40;
+            }
+        }
+    } completion:^(BOOL finished) {
+
+        weakSelf.activeImg.centerX = WTWidth-80-40*5;
+        weakSelf.activeImg.transform = CGAffineTransformScale(weakSelf.activeImg.transform, 0.1, 0.1);
+        if (weakSelf.jsh_img<weakSelf.dataArr_net.count-1) {
+            weakSelf.jsh_img = weakSelf.jsh_img+1;
+        }else{
+            weakSelf.jsh_img = 0;
+        }
+        UIImageView * dataImg_net = weakSelf.dataImgArr_net[weakSelf.jsh_img];
+        weakSelf.activeImg.image = dataImg_net.image;
+
+        [UIView animateWithDuration:1 animations:^{
+            weakSelf.activeImg.transform = CGAffineTransformScale(weakSelf.activeImg.transform, 10, 10);
+        } completion:^(BOOL finished) {
+
+            [weakSelf bringSubviewToFront:weakSelf.activeImg];
+            [UIView animateWithDuration:1 animations:^{
+                weakSelf.activeImg.X = WTWidth-80-40*4;
+            } completion:^(BOOL finished) {
+                weakSelf.jsh_index = weakSelf.jsh_index+1;
+                if (weakSelf.jsh_index >4) {
+                    weakSelf.jsh_index = 0;
+                }
+                weakSelf.activeImg = [weakSelf viewWithTag:10+weakSelf.jsh_index];
+                [weakSelf startAnimation_net];
+            }];
+        }];
+    }];
+}
+
+- (void)setDataArr_loc:(NSArray *)dataArr_loc
+{
+    if (_dataArr_loc != dataArr_loc) {
+        _dataArr_loc = dataArr_loc;
+    }
+    
+    if (_dataArr_loc.count<5) {
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"传入dataArr.count不能少于5个" message:nil preferredStyle: UIAlertControllerStyleAlert];
+
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        }]];
+
+        UIViewController *rootViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
+        [rootViewController presentViewController:alert animated:true completion:nil];
+        return;
+    }
+
+    for (int i = 0; i<5; i++) {
+        UIImageView * imgv = [self viewWithTag:10+i];
+        imgv.image = [UIImage imageNamed:_dataArr_loc[i]];
+    }
+    self.jsh_img = 4;
+    [self startAnimation_loc];
+}
+
+- (void)startAnimation_loc
 {
     WTWeakSelf;
     [UIView animateWithDuration:1 animations:^{
@@ -99,12 +195,12 @@
         
         weakSelf.activeImg.centerX = WTWidth-80-40*5;
         weakSelf.activeImg.transform = CGAffineTransformScale(weakSelf.activeImg.transform, 0.1, 0.1);
-        if (weakSelf.jsh_img<weakSelf.dataArr.count-1) {
+        if (weakSelf.jsh_img<weakSelf.dataArr_loc.count-1) {
             weakSelf.jsh_img = weakSelf.jsh_img+1;
         }else{
             weakSelf.jsh_img = 0;
         }
-        weakSelf.activeImg.image = [UIImage imageNamed:weakSelf.dataArr[weakSelf.jsh_img]];
+        weakSelf.activeImg.image = [UIImage imageNamed:weakSelf.dataArr_loc[weakSelf.jsh_img]];
         
         [UIView animateWithDuration:1 animations:^{
             weakSelf.activeImg.transform = CGAffineTransformScale(weakSelf.activeImg.transform, 10, 10);
@@ -119,7 +215,7 @@
                     weakSelf.jsh_index = 0;
                 }
                 weakSelf.activeImg = [weakSelf viewWithTag:10+weakSelf.jsh_index];
-                [weakSelf startAnimation];
+                [weakSelf startAnimation_loc];
             }];
         }];
     }];
